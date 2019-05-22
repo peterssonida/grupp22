@@ -1,14 +1,7 @@
 <?php
 //require detta från dbh.php...
-$uname = "dbtrain_1064";
-$pass = "utwspc";
-$host = "dbtrain.im.uu.se";
-$dbname = "dbtrain_1064";
-$conn = new mysqli($host, $uname, $pass, $dbname);
-if ($conn->connect_error)
-{
-	die("Connection failed: ".$conn.connect_error);
-}
+include("include/bootstrap.php");
+
 $email = mysqli_real_escape_string($conn, $_POST['email']);
 if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
   $email = "Invalid email format";
@@ -41,7 +34,7 @@ for($i=0; $i < $Salt_Length; $i++)
 $bcrypt_salt = $Blowfish_Pre . $salt . $Blowfish_End;
 $hashed_password = crypt($password, $bcrypt_salt);
 if (test_input($fstName) === "" || test_input($lstName) === ""
-|| test_input($email) === "" || $email === "Invalid email format" 
+|| test_input($email) === "" || $email === "Invalid email format"
 || test_input($password) === "" || test_input($pwdRepeat) === "" || $password != $pwdRepeat){
     die("Input failed.. ");
 }
@@ -50,7 +43,7 @@ else{
     "VALUES ('$fstName', '$lstName','$email','$hashed_password', '$salt')";
 }
 if ($conn->query($SQLreg) === true){
-    echo "Person added";
+    header("Location: include/views/home.php");
 }
 else{
     echo "Something went wrong: ";

@@ -1,14 +1,8 @@
 <?php
 //Ta detta från dbLOGIN.php eller vad den nu heter
-$uname = "dbtrain_1064";
-$pass = "utwspc";
-$host = "dbtrain.im.uu.se";
-$dbname = "dbtrain_1064";
-$conn = new mysqli($host, $uname, $pass, $dbname);
-if ($conn->connect_error)
-{
-	die("Connection failed: ".$conn.connect_error);
-}
+// includes all he classes, session_start and the html head.
+include("include/bootstrap.php");
+
 $Blowfish_Pre = '$2a$05$';
 $Blowfish_End = '$';
 
@@ -24,7 +18,7 @@ function test_input($data) {
 
 //Verify a user’s password
 $get = "SELECT salt, hashed_password FROM User WHERE email='$email'";
-$result = mysqli_query($conn,$get);
+$result = mysqli_query($conn->conn,$get);
 $row = mysqli_fetch_assoc($result);
 $hashed_pass = crypt($pwd, $Blowfish_Pre . $row['salt'] . $Blowfish_End);
 if ($hashed_pass == $row['hashed_password']) {
